@@ -65,8 +65,6 @@ export default function BigPoster(props:props){
             console.log(video);
         }
     },[video])
-
-    console.log(video);
     
     return(
         <div>

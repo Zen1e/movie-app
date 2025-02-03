@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const FetchMore = (id) => {
+const FetchMore = (id, page) => {
   const [movies,setMovies] = useState([]);
     useEffect(() => {
         const fetchMovies = async () => {
@@ -13,7 +13,7 @@ const FetchMore = (id) => {
             },
           };
           try{
-            const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/similar?language=en-US&page=1`, options);
+            const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/similar?language=en-US&page=${page}`, options);
             const data = await response.json();
             setMovies(data.results);
           }
@@ -23,6 +23,7 @@ const FetchMore = (id) => {
         };
         fetchMovies();
       }, []);
+      
   return movies;
 };
 

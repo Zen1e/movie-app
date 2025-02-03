@@ -28,7 +28,7 @@ export default function Home() {
           : { background: "white", color: "black" }
       }
     >
-      <Header dark={dark} setDark={setDark} />
+      <Header dark={dark} setDark={setDark} pre = {'details/'}/>
       <Intro dark={dark} />
       <Footer />
     </div>

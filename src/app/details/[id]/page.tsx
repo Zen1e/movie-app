@@ -55,7 +55,7 @@ useEffect(() => {
           : { background: "white", color: "black" }
       }
     >
-      <Header dark={dark} setDark={setDark} />
+      <Header dark={dark} setDark={setDark} pre = {''}/>
       <Detail movies={movies}/>
       <Footer />
     </div>

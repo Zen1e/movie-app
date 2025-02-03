@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import Video from "./Video";
-import { log } from "util";
-import { useStyleRegistry } from "styled-jsx";
+import More from "./MoreLikeThis";
+// import { log } from "util";
+// import { useStyleRegistry } from "styled-jsx";
 
 export default function Detail(props) {
   const { movies } = props;
@@ -178,6 +179,9 @@ export default function Detail(props) {
             <div className="flex overflow-scroll">{casts?.cast.slice(0,5).map((el,index) => (
               <div className="flex text-nowrap" key={index}>{index ? <div className="mx-[20px]">·</div> : <></>}{el.name}</div>
             ))}</div>
+          </div>
+          <div className="mb-[150px]">
+            <More id = {movies.id}/>
           </div>
         </div>
       </div>
