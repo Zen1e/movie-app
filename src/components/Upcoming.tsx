@@ -1,5 +1,6 @@
 import FetchUpcoming from './fetch/FetchUpcoming'
 import Link from 'next/link';
+import Image from 'next/image';
 
 type el = {
     poster_path: string
@@ -13,16 +14,16 @@ export default function Upcoming(){
     upcoming.length = 10;
     return(
         <div className="max-w-[1260px] mt-[100px]">
-            <div className="w-full h-[50px] flex justify-between font-bold mb-[50px]">
+            <div className="w-[95%] mx-auto h-[50px] flex justify-between font-bold mb-[50px]">
                 <p className="text-[30px]">Upcoming</p>
-                <button>See more...</button>
+                <Link href={{pathname: '/category', query: {category: 'upcoming', page: 1}}}><button>See more...</button></Link>
             </div>
-            <div className='flex flex-wrap justify-between gap-y-[30px]'>
+            <div className='flex flex-wrap justify-center gap-y-[30px] gap-x-[20px]'>
                 {upcoming.map((element:el,index)=>(
                     <div className='w-[230px] h-[440px] bg-gray-500/20 rounded-[10px] overflow-hidden' key={element.id}>
                     <Link href={`./details/${element.id}`}>
                         <div className='w-[230px] h-[340px]'>
-                            <img src={`https://image.tmdb.org/t/p/original/${element.poster_path}`} alt="" />
+                            <img src={`https://image.tmdb.org/t/p/w300/${element.poster_path}`} alt="" />
                         </div>
                         <div className="flex gap-[6px] mt-[15px] ml-[13px]">
                             <img src="./star.svg" className='w-[20px] h-[20px] mt-[2px]'/>

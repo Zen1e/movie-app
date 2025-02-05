@@ -5,6 +5,16 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
+
 
 const GenrePage = () => {
   const router = useRouter();
@@ -70,6 +80,8 @@ const GenrePage = () => {
     fetchMovies();
   }, [genres, page]);
 
+  const total_pages = Math.ceil(movies?.total_results/20) >= 500 ? 500 : Math.ceil(movies?.total_results/20);
+
   const genreChange = (genreId: number) => {
     setGenres((prevGenres) =>
       prevGenres.includes(genreId)
@@ -80,7 +92,7 @@ const GenrePage = () => {
   };
 
   useEffect(() => {
-    router.push(`/genres?id=${genres.join('%2C')}&page=${page}`);
+    router.push(`/genres?id=${genres.join('%2C')}&page=${page}`, {scroll: false});
   }, [genres, page]);
 
   return (
@@ -92,7 +104,7 @@ const GenrePage = () => {
           : { background: "white", color: "black" }
       }
     >
-      <Header dark={dark} setDark={setDark} pre={""} />
+      <Header dark={dark} setDark={setDark} pre={"/details/"} />
       <div className="w-screen mt-[60px] flex justify-center">
         <div className="w-[1200px]">
           <div className="text-[35px] font-bold mb-[30px]">Search filter</div>
@@ -123,7 +135,7 @@ const GenrePage = () => {
             </div>
             <div className="border-l border-gray-400/25 pl-[15px]">
               <div className="font-bold text-[25px]">
-                {movies?.total_results} titles
+                {movies?.total_results ? movies.total_results : 'No'} movies
               </div>
               <div className="flex flex-wrap gap-[30px]">
                 {movies?.results?.map((element, index) => (
@@ -157,21 +169,47 @@ const GenrePage = () => {
                   </div>
                 ))}
               </div>
-              <div className="flex gap-[10px]">
-                <button
-                  onClick={() => {
-                    page !== 1 && setPage(page - 1);
-                  }}
-                >
-                  Prev
-                </button>
-                <button
-                  onClick={() => {
-                    page !== movies.total_pages && setPage(page + 1);
-                  }}
-                >
-                  Next
-                </button>
+              <div className="flex gap-[10px] mt-[10px] mb-[60px]">
+              <Pagination>
+              <PaginationContent>
+                {page !== 1 && <PaginationItem>
+                  <PaginationPrevious onClick={()=>{setPage(page-1)}} />
+                </PaginationItem>}
+                {page > 2 &&
+                <PaginationItem>
+                  <PaginationLink onClick={()=>setPage(1)}>1</PaginationLink>
+                </PaginationItem>}
+                {page > 3 &&
+                <PaginationItem>
+                  <PaginationEllipsis />
+                </PaginationItem>}
+
+                {page !==1 &&
+                <PaginationItem>
+                  <PaginationLink onClick={()=>{setPage(page-1)}}>{page-1}</PaginationLink>
+                </PaginationItem>}
+
+                <PaginationItem>
+                  <PaginationLink className="border ">{page}</PaginationLink>
+                </PaginationItem>
+                {page < total_pages &&<PaginationItem>
+                  <PaginationLink onClick={()=>{setPage(page+1)}}>{page+1}</PaginationLink>
+                </PaginationItem>}
+                {page < total_pages-1 && <PaginationItem>
+                  <PaginationLink onClick={()=>{setPage(page+2)}}>{page+2}</PaginationLink>
+                </PaginationItem>}
+
+                {page < total_pages-3 && <PaginationItem>
+                  <PaginationEllipsis />
+                </PaginationItem>}
+                {page < total_pages-2 && <PaginationItem>
+                  <PaginationLink onClick={()=>setPage(total_pages || 10)}>{total_pages || 10}</PaginationLink>
+                </PaginationItem>}
+                {page !== total_pages && <PaginationItem>
+                  <PaginationNext onClick={()=>{setPage(page+1)}} />
+                </PaginationItem>}
+              </PaginationContent>
+            </Pagination>
               </div>
             </div>
           </div>

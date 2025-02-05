@@ -10,7 +10,7 @@ export default function Video(props:props){
     const {playing, setPlaying, source} = props;
     
     return(
-        <div className="absolute top-0 left-0 w-screen h-screen flex justify-center items-center z-50 bg-gray-600/50" onClick={()=>setPlaying(false)}>
+        <div className="fixed top-0 left-0 w-screen h-screen flex justify-center items-center z-50 bg-gray-600/50" onClick={()=>setPlaying(false)}>
         <iframe
         width="560"
         height="315"

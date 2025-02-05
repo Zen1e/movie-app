@@ -13,11 +13,11 @@ export default function Popular(){
     popular.length = 10;
     return(
         <div className="max-w-[1260px] mt-[100px]">
-            <div className="w-full h-[50px] flex justify-between font-bold mb-[50px]">
+            <div className="w-[95%] mx-auto h-[50px] flex justify-between font-bold mb-[50px]">
                 <p className="text-[30px]">Popular</p>
-                <button>See more...</button>
+                <Link href={{pathname: '/category', query: {category: 'popular', page: 1}}}><button>See more...</button></Link>
             </div>
-            <div className='flex flex-wrap justify-between gap-y-[30px]'>
+            <div className='flex flex-wrap justify-center gap-y-[30px] gap-x-[20px]'>
                 {popular.map((element:el,index)=>(
                     <div className='w-[230px] h-[440px] bg-gray-500/20 rounded-[10px] overflow-hidden' key={element.id}>
                         <Link href={`./details/${element.id}`}>
