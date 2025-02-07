@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Pagination,
   PaginationContent,
@@ -20,11 +21,14 @@ export default function Category() {
   const searchParams = useSearchParams();
   const category = searchParams.get("category");
   const pages = searchParams.get("page");
+  const id = searchParams.get("id");
 
   const [movies, setMovies] = useState();
   const [page, setPage] = useState(Number(pages));
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     const fetchMovies = async () => {
       const options = {
         method: "GET",
@@ -41,19 +45,84 @@ export default function Category() {
         );
         const data = await response.json();
         setMovies(data);
+        setLoading(false);
       } catch (err) {
         console.error(err);
       }
     };
-    fetchMovies();
-    router.push(`./category?category=${category}&page=${page}`);
+    const fetchSimilar = async () => {
+      const options = {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4NTIxNWM0ZWQ0NTI1NjQwNWFkMzQwNmI5MGI0YTBjZSIsIm5iZiI6MTczNzk2MzQ4OC4zMjksInN1YiI6IjY3OTczN2UwOWEzMGE4NWIyNzIzZTRlOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.WHLjZvCpp3RzmN6uvCgR2EKPfyADZapmWydkEkobJgg",
+        },
+      };
+      try {
+        const response = await fetch(
+          `https://api.themoviedb.org/3/movie/${id}/${category}?language=en-US&page=${page}`,
+          options
+        );
+        const data = await response.json();
+        setMovies(data);
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    if(id){
+      fetchSimilar();
+      router.push(`./category?category=${category}&page=${page}&id=${id}`)
+    } else{
+      fetchMovies();
+      router.push(`./category?category=${category}&page=${page}`);
+    }
   }, [page]);
+  
 
-  console.log(movies);
+  const resp = localStorage.getItem('dark');
+  const res = JSON.parse(resp);
 
-  const [dark, setDark] = useState(true);
+  const [dark, setDark] = useState(res!==null ? res : true);
 
-  return (
+  const total_pages = movies?.total_pages > 500 ? 500 : movies?.total_pages;
+
+  return loading ? (
+    <div className={dark ? "bg-black" : "bg-white"}>
+      <Header dark={dark} setDark={setDark} pre={"/details/"} />
+      <div className="w-screen min-h-screen flex justify-center">
+        <div className="w-[1300px] mt-[100px]">
+          <div className="capitalize font-bold text-[35px] ml-[50px] mb-[50px]">
+            {category?.split("_").join(" ")}
+          </div>
+          <div className="flex flex-wrap justify-center gap-y-[30px] gap-x-[20px] mb-[50px]">
+            <Skeleton className="w-[230px] h-[440px]"/>
+            <Skeleton className="w-[230px] h-[440px]"/>
+            <Skeleton className="w-[230px] h-[440px]"/>
+            <Skeleton className="w-[230px] h-[440px]"/>
+            <Skeleton className="w-[230px] h-[440px]"/>
+            <Skeleton className="w-[230px] h-[440px]"/>
+            <Skeleton className="w-[230px] h-[440px]"/>
+            <Skeleton className="w-[230px] h-[440px]"/>
+            <Skeleton className="w-[230px] h-[440px]"/>
+            <Skeleton className="w-[230px] h-[440px]"/>
+            <Skeleton className="w-[230px] h-[440px]"/>
+            <Skeleton className="w-[230px] h-[440px]"/>
+            <Skeleton className="w-[230px] h-[440px]"/>
+            <Skeleton className="w-[230px] h-[440px]"/>
+            <Skeleton className="w-[230px] h-[440px]"/>
+            <Skeleton className="w-[230px] h-[440px]"/>
+            <Skeleton className="w-[230px] h-[440px]"/>
+            <Skeleton className="w-[230px] h-[440px]"/>
+            <Skeleton className="w-[230px] h-[440px]"/>
+            <Skeleton className="w-[230px] h-[440px]"/>
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </div>
+  ) : (
     <div
       className="w-screen flex flex-col justify-center"
       style={
@@ -62,7 +131,7 @@ export default function Category() {
           : { background: "white", color: "black" }
       }
     >
-      <Header dark={dark} setDark={setDark} pre={"/detail/"} />
+      <Header dark={dark} setDark={setDark} pre={"/details/"} />
       <div className="w-screen min-h-screen flex justify-center">
         <div className="w-[1300px] mt-[100px]">
           <div className="capitalize font-bold text-[35px] ml-[50px] mb-[50px]">
@@ -101,7 +170,7 @@ export default function Category() {
             ))}
           </div>
           <div className="flex mb-[100px] ml-[50px] gap-[30px]">
-            <Pagination>
+          <Pagination>
               <PaginationContent>
                 {page !== 1 && <PaginationItem>
                   <PaginationPrevious onClick={()=>{setPage(page-1)}} />
@@ -123,20 +192,20 @@ export default function Category() {
                 <PaginationItem>
                   <PaginationLink className="border ">{page}</PaginationLink>
                 </PaginationItem>
-                {page < 10 &&<PaginationItem>
+                {page < total_pages &&<PaginationItem>
                   <PaginationLink onClick={()=>{setPage(page+1)}}>{page+1}</PaginationLink>
                 </PaginationItem>}
-                {page < 9 && <PaginationItem>
+                {page < total_pages-1 && <PaginationItem>
                   <PaginationLink onClick={()=>{setPage(page+2)}}>{page+2}</PaginationLink>
                 </PaginationItem>}
 
-                {page < 7 && <PaginationItem>
+                {page < total_pages-3 && <PaginationItem>
                   <PaginationEllipsis />
                 </PaginationItem>}
-                {page < 8 && <PaginationItem>
-                  <PaginationLink onClick={()=>setPage(10)}>10</PaginationLink>
+                {page < total_pages-2 && <PaginationItem>
+                  <PaginationLink onClick={()=>setPage(total_pages || 10)}>{total_pages || 10}</PaginationLink>
                 </PaginationItem>}
-                {page !== 10 && <PaginationItem>
+                {page !== total_pages && <PaginationItem>
                   <PaginationNext onClick={()=>{setPage(page+1)}} />
                 </PaginationItem>}
               </PaginationContent>

@@ -10,7 +10,6 @@ export default function Home() {
   useEffect(()=>{
     const res = localStorage.getItem('dark');
     if(res !== null && res !== undefined){
-      console.log(res);
       const result = JSON.parse(res);
       setDark(result);
     }

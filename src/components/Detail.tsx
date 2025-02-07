@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Video from "./Video";
 import More from "./MoreLikeThis";
+import { Skeleton } from "./ui/skeleton";
 // import { log } from "util";
 // import { useStyleRegistry } from "styled-jsx";
 
@@ -105,8 +106,22 @@ export default function Detail(props) {
     return producer?.name;
   };
 
-  if (!loading)
-    return (
+    return loading ? (
+      <div className="w-screen mt-[60px] flex justify-center">
+        <div className="w-[1200px] flex flex-col">
+          <div className="flex justify-between mb-[40px]">
+            <Skeleton className="w-[350px] h-[60px]"/>
+            <Skeleton className="w-[80px] h-[60px]"/>
+          </div>
+          <div className="flex justify-between mb-[50px]">
+            <Skeleton className="w-[300px] h-[450px]"/>
+            <Skeleton className="w-[800px] h-[450px]"/>
+          </div>
+          <Skeleton className="w-full h-[400px]"/>
+        </div>
+      </div>
+    )
+    : (
       <div className="w-screen mt-[60px] flex justify-center">
         {playing && (
           <Video playing={playing} setPlaying={setPlaying} source={source()} />
@@ -186,5 +201,4 @@ export default function Detail(props) {
         </div>
       </div>
     );
-  else return;
 }

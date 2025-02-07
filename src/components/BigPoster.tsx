@@ -8,6 +8,7 @@ import {
   import Link from 'next/link'; 
 import { useEffect, useState } from "react";
 import Video from "./Video";
+import { Skeleton } from "@/components/ui/skeleton"
   
 
 
@@ -62,11 +63,13 @@ export default function BigPoster(props:props){
             if (trailer) setSource(trailer[0]?.key);
             else setSource(video?.results[0].key);
             setPlaying(true);
-            console.log(video);
         }
     },[video])
     
-    return(
+    
+    return(!nowPlaying.length ? <div>
+        <Skeleton className="w-screen h-[600px]"/>
+    </div> :
         <div>
             {playing && <Video playing = {playing} setPlaying = {setPlaying} source = {source}/>}
         <Carousel className="w-screen h-[600px]">

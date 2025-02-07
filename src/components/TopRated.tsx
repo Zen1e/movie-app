@@ -1,5 +1,6 @@
 import FetchTopRated from './fetch/FetchTopRated'
 import Link from 'next/link';
+import { Skeleton } from './ui/skeleton';
 
 type el = {
     poster_path: string
@@ -11,7 +12,27 @@ type el = {
 export default function TopRated(){
     const topRated = FetchTopRated();
     topRated.length = 10;
-    return(
+    return topRated[0] === undefined ? (
+        <div className="max-w-[1260px] mt-[100px] mb-[100px]">
+            <div className="w-[95%] h-[50px] flex justify-between mx-auto font-bold mb-[50px]">
+                <p className="text-[30px]">Top rated</p>
+                <Link href={{pathname: '/category', query: {category: 'top_rated', page: 1}}}><button>See more...</button></Link>
+            </div>
+            <div className='flex flex-wrap justify-center gap-y-[30px] gap-x-[20px]'>
+                <Skeleton className="w-[230px] h-[440px]"/>
+                <Skeleton className="w-[230px] h-[440px]"/>
+                <Skeleton className="w-[230px] h-[440px]"/>
+                <Skeleton className="w-[230px] h-[440px]"/>
+                <Skeleton className="w-[230px] h-[440px]"/>
+                <Skeleton className="w-[230px] h-[440px]"/>
+                <Skeleton className="w-[230px] h-[440px]"/>
+                <Skeleton className="w-[230px] h-[440px]"/>
+                <Skeleton className="w-[230px] h-[440px]"/>
+                <Skeleton className="w-[230px] h-[440px]"/>
+            </div>
+        </div>
+    )
+    :(
         <div className="max-w-[1260px] mt-[100px] mb-[100px]">
             <div className="w-[95%] h-[50px] flex justify-between mx-auto font-bold mb-[50px]">
                 <p className="text-[30px]">Top rated</p>

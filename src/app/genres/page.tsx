@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { Skeleton } from "@/components/ui/skeleton";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import {
@@ -17,14 +18,19 @@ import {
 
 
 const GenrePage = () => {
+
+  const resp = localStorage.getItem('dark');
+  const res = JSON.parse(resp);
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
   const pages = searchParams.get('page');
-  const [dark, setDark] = useState(true);
+  const [dark, setDark] = useState(res!==null ? res : true);
   const [list, setList] = useState([]);
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(Number(pages) || 1);
+  const [loading, setLoading] = useState(true);
   
   const [genres, setGenres] = useState(id != 0 ? id?.split(',').map(Number) : []);
 
@@ -56,6 +62,7 @@ const GenrePage = () => {
   }, []);
 
   useEffect(() => {
+    setLoading(true);
     const fetchMovies = async () => {
       const options = {
         method: "GET",
@@ -72,6 +79,7 @@ const GenrePage = () => {
         );
         const data = await response.json();
         setMovies(data);
+        setLoading(false);
       } catch (err) {
         console.error(err);
       }
@@ -95,7 +103,7 @@ const GenrePage = () => {
     router.push(`/genres?id=${genres.join('%2C')}&page=${page}`, {scroll: false});
   }, [genres, page]);
 
-  return (
+  return(
     <div
       className="w-screen flex flex-col justify-center"
       style={
@@ -133,11 +141,34 @@ const GenrePage = () => {
                 ))}
               </div>
             </div>
-            <div className="border-l border-gray-400/25 pl-[15px]">
+            <div className="border-l border-gray-400/25 pl-[15px] min-h-screen">
               <div className="font-bold text-[25px]">
                 {movies?.total_results ? movies.total_results : 'No'} movies
               </div>
-              <div className="flex flex-wrap gap-[30px]">
+              {loading ? 
+                <div className="flex flex-wrap gap-[30px]">
+                  <Skeleton className="w-[165px] h-[344px]"/>
+                  <Skeleton className="w-[165px] h-[344px]"/>
+                  <Skeleton className="w-[165px] h-[344px]"/>
+                  <Skeleton className="w-[165px] h-[344px]"/>
+                  <Skeleton className="w-[165px] h-[344px]"/>
+                  <Skeleton className="w-[165px] h-[344px]"/>
+                  <Skeleton className="w-[165px] h-[344px]"/>
+                  <Skeleton className="w-[165px] h-[344px]"/>
+                  <Skeleton className="w-[165px] h-[344px]"/>
+                  <Skeleton className="w-[165px] h-[344px]"/>
+                  <Skeleton className="w-[165px] h-[344px]"/>
+                  <Skeleton className="w-[165px] h-[344px]"/>
+                  <Skeleton className="w-[165px] h-[344px]"/>
+                  <Skeleton className="w-[165px] h-[344px]"/>
+                  <Skeleton className="w-[165px] h-[344px]"/>
+                  <Skeleton className="w-[165px] h-[344px]"/>
+                  <Skeleton className="w-[165px] h-[344px]"/>
+                  <Skeleton className="w-[165px] h-[344px]"/>
+                  <Skeleton className="w-[165px] h-[344px]"/>
+                  <Skeleton className="w-[165px] h-[344px]"/>
+                </div>
+              :<div className="flex flex-wrap gap-[30px]">
                 {movies?.results?.map((element, index) => (
                   <div
                     className="w-[165px] h-[344px] bg-gray-500/20 rounded-[10px] overflow-hidden mb-[40px]"
@@ -168,7 +199,7 @@ const GenrePage = () => {
                     </Link>
                   </div>
                 ))}
-              </div>
+              </div>}
               <div className="flex gap-[10px] mt-[10px] mb-[60px]">
               <Pagination>
               <PaginationContent>

@@ -20,7 +20,7 @@ export default function More(props: props){
         <div className="max-w-[1260px] mt-[100px]">
             <div className="w-full h-[50px] flex justify-between font-bold mb-[50px]">
                 <p className="text-[30px]">More like this</p>
-                <button>See more...</button>
+                <Link href={{pathname: '/category', query: {category: 'similar', page: 1, id: id}}}><button>See more...</button></Link>
             </div>
             <div className='flex flex-wrap justify-between gap-y-[30px]'>
                 {more.map((element:el,index)=>(

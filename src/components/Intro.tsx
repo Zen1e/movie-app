@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import BigPoster from "./BigPoster";
 import FetchNowPlaying from "./fetch/FetchNowPlaying";
 import Upcoming from "./Upcoming";

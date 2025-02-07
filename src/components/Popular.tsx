@@ -1,5 +1,6 @@
 import FetchPopular from './fetch/FetchPopular'
 import Link from 'next/link';
+import { Skeleton } from './ui/skeleton';
 
 type el = {
     poster_path: string
@@ -11,7 +12,26 @@ type el = {
 export default function Popular(){
     const popular = FetchPopular();
     popular.length = 10;
-    return(
+    return popular[0] === undefined ? (
+        <div className="max-w-[1260px] mt-[100px]">
+            <div className="w-[95%] mx-auto h-[50px] flex justify-between font-bold mb-[50px]">
+                <p className="text-[30px]">Popular</p>
+                <Link href={{pathname: '/category', query: {category: 'popular', page: 1}}}><button>See more...</button></Link>
+            </div>
+            <div className='flex flex-wrap justify-center gap-y-[30px] gap-x-[20px]'>
+                <Skeleton className="w-[230px] h-[440px]"/>
+                <Skeleton className="w-[230px] h-[440px]"/>
+                <Skeleton className="w-[230px] h-[440px]"/>
+                <Skeleton className="w-[230px] h-[440px]"/>
+                <Skeleton className="w-[230px] h-[440px]"/>
+                <Skeleton className="w-[230px] h-[440px]"/>
+                <Skeleton className="w-[230px] h-[440px]"/>
+                <Skeleton className="w-[230px] h-[440px]"/>
+                <Skeleton className="w-[230px] h-[440px]"/>
+                <Skeleton className="w-[230px] h-[440px]"/>
+            </div>
+        </div>
+    ) : (
         <div className="max-w-[1260px] mt-[100px]">
             <div className="w-[95%] mx-auto h-[50px] flex justify-between font-bold mb-[50px]">
                 <p className="text-[30px]">Popular</p>

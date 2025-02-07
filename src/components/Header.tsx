@@ -117,7 +117,7 @@ export default function Header(props: props) {
               <div>See lists of movies by genre</div>
             </div>
             <div className="m-[20px] flex flex-wrap gap-[10px]">
-              {list.genres.map((el) => (
+              {list?.genres?.map((el) => (
                 <Link key={el.id} href={{ pathname: "/genres", query: { id: el.id, page: 1 } }}>
                   <div className="border rounded-full px-[10px] h-[28px]">{el.name}</div>
                 </Link>
