@@ -12,21 +12,21 @@ import { Skeleton } from "@/components/ui/skeleton"
   
 
 
-type el = {
-    backdrop_path: string
-    vote_average: number
-    title: string
-    id: number
-    overview: string
-}
+// type el = {
+//     backdrop_path: string
+//     vote_average: number
+//     title: string
+//     id: number
+//     overview: string
+// }
 
-type props = {
-    nowPlaying: Array<el>
-    dark: boolean
-}
+// type props = {
+//     nowPlaying: Array<el>
+//     dark: boolean
+// }
 
 
-export default function BigPoster(props:props){
+export default function BigPoster(props){
     const {nowPlaying, dark} = props;
     const [playing, setPlaying] = useState(false);
     const [source, setSource] = useState('');
@@ -74,7 +74,7 @@ export default function BigPoster(props:props){
             {playing && <Video playing = {playing} setPlaying = {setPlaying} source = {source}/>}
         <Carousel className="w-screen h-[600px]">
             <CarouselContent>
-            {nowPlaying.map((element: el, index:number)=>(
+            {nowPlaying.map((element)=>(
                 <CarouselItem className="w-screen h-[600px] overflow-hidden" key={element.id}>
                     <Link href={`./details/${element.id}`} className="relative z-10 flex">
                     <div className="w-screen lg:h-[600px] h-[300px] overflow-hidden"><img src={`https://image.tmdb.org/t/p/original/${element.backdrop_path}`} alt="" className="w-full h-full object-cover"/></div>

@@ -92,7 +92,7 @@ export default function Detail(props) {
     else return video?.results[0].key;
   };
 
-  const findGenre = (x:number) => {
+  const findGenre = (x) => {
     const ind = list?.genres.find((el) => el.id === x);
     return ind?.name;
   };

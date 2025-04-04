@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/fetch/FetchPopular.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/fetch/FetchPopular.js", "src/app/category/page.jsx", "src/components/Detail.jsx", "src/components/BigPoster.jsx"],
   "exclude": ["node_modules"]
 }
