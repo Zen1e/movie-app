@@ -19,21 +19,31 @@ import {
 
 const GenrePage = () => {
 
-  const resp = localStorage.getItem('dark');
-  const res = JSON.parse(resp);
-
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
   const pages = searchParams.get('page');
-  const [dark, setDark] = useState(res!==null ? res : true);
+  const [dark, setDark] = useState(true);
   const [list, setList] = useState([]);
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState({
+    total_results : 0,
+    results : []
+  });
   const [page, setPage] = useState(Number(pages) || 1);
   const [loading, setLoading] = useState(true);
   
-  const [genres, setGenres] = useState(id != 0 ? id?.split(',').map(Number) : []);
+  const [genres, setGenres] = useState(id != "" ? id?.split(',').map(Number) : []);
 
+  useEffect(() => {
+    try {
+      const storedDarkMode = localStorage.getItem('dark');
+      if (storedDarkMode !== null) {
+        setDark(JSON.parse(storedDarkMode));
+      }
+    } catch (err) {
+      console.error("Error accessing localStorage:", err);
+    }
+  }, []);
 
   useEffect(() => {
   

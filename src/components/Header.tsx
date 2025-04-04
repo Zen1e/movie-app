@@ -14,9 +14,11 @@ export default function Header(props: props) {
   const { dark, setDark, pre } = props;
   const [show, setShow] = useState(false);
   const [inputValue, setInputValue] = useState('');
-  const [movie, setMovie] = useState();
+  const [movie, setMovie] = useState([]);
   const [showDropdown, setDropdown] = useState(false);
-  const [list, setList] = useState([]);
+  const [list, setList] = useState({
+    genres : []
+  });
 
   const darkModeSwitch = () => {
     if (dark === true) {
@@ -98,9 +100,9 @@ export default function Header(props: props) {
     const dropdown = () => {
       setDropdown(!showDropdown);
     }
-    const responseBlock = () => {
-      setRespond(true);
-    }
+    // const responseBlock = () => {
+    //   setRespond(true);
+    // }
   
 
   return (
@@ -141,7 +143,7 @@ export default function Header(props: props) {
           />
           <button className="relative left-[-30px] block md:!hidden rotate-[45deg]" style={respond ? {display: 'block'} : {display: "none"}} onClick={()=>setRespond(!respond)}>+</button>
           {show && <div className="bg-inherit w-[450px] absolute ml-[-33px] mt-[40px] rounded-[5px] overflow-hidden">
-            {movie?.map((el)=>(
+            {movie && movie?.map((el)=>(
                 <Link href={`./${pre}${el.id}`} className="relative z-10" key={el.id}>
               <div className="w-full h-[150px] border-b border-gray-500/25 bg-inherit flex">
                 <img src={`https://image.tmdb.org/t/p/original/${el.poster_path}`} alt="" className="m-[15px] w-[79px] h-[119px]"/>

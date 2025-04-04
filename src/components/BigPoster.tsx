@@ -12,25 +12,13 @@ import { Skeleton } from "@/components/ui/skeleton"
   
 
 
-// type el = {
-//     backdrop_path: string
-//     vote_average: number
-//     title: string
-//     id: number
-//     overview: string
-// }
-
-// type props = {
-//     nowPlaying: Array<el>
-//     dark: boolean
-// }
-
-
 export default function BigPoster(props){
     const {nowPlaying, dark} = props;
     const [playing, setPlaying] = useState(false);
     const [source, setSource] = useState('');
-    const [video, setVideo] = useState([]);
+    const [video, setVideo] = useState({
+        results : null
+    });
 
     const fetchvideo = (id) =>{
 

@@ -2,15 +2,20 @@ import { useState, useEffect } from "react";
 import Video from "./Video";
 import More from "./MoreLikeThis";
 import { Skeleton } from "./ui/skeleton";
-// import { log } from "util";
-// import { useStyleRegistry } from "styled-jsx";
 
 export default function Detail(props) {
   const { movies } = props;
 
-  const [video, setVideo] = useState();
-  const [casts, setCasts] = useState();
-  const [list, setList] = useState();
+  const [video, setVideo] = useState({
+    results : []
+  });
+  const [casts, setCasts] = useState({
+    crew: [],
+    cast: []
+  });
+  const [list, setList] = useState({
+    genres : []
+  });
   const [playing, setPlaying] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -83,7 +88,6 @@ export default function Detail(props) {
     fetchList();
     fetchCast();
     fetchMovies();
-    // casts.cast.length = 5;
   }, [movies]);
 
   const source = () => {

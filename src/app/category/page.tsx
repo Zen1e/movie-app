@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Pagination,
@@ -16,17 +16,48 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination"
 
-export default function Category() {  
+function CategoryLoader() {
+  return (
+    <div className="w-screen min-h-screen flex justify-center">
+      <div className="w-[1300px] mt-[100px]">
+        <div className="capitalize font-bold text-[35px] ml-[50px] mb-[50px]">
+          Loading...
+        </div>
+        <div className="flex flex-wrap justify-center gap-y-[30px] gap-x-[20px] mb-[50px]">
+          {[...Array(20)].map((_, index) => (
+            <Skeleton key={index} className="w-[230px] h-[440px]"/>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
 
+function CategoryContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const category = searchParams.get("category");
   const pages = searchParams.get("page");
   const id = searchParams.get("id");
 
-  const [movies, setMovies] = useState();
-  const [page, setPage] = useState(Number(pages));
+  const [movies, setMovies] = useState({
+    total_pages: 1,
+    results: []
+  });
+  const [page, setPage] = useState(Number(pages) || 1);
   const [loading, setLoading] = useState(true);
+  const [dark, setDark] = useState(true); 
+
+  useEffect(() => {
+    try {
+      const storedDarkMode = localStorage.getItem('dark');
+      if (storedDarkMode !== null) {
+        setDark(JSON.parse(storedDarkMode));
+      }
+    } catch (err) {
+      console.error("Error accessing localStorage:", err);
+    }
+  }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -51,6 +82,7 @@ export default function Category() {
         console.error(err);
       }
     };
+    
     const fetchSimilar = async () => {
       const options = {
         method: "GET",
@@ -72,55 +104,22 @@ export default function Category() {
         console.error(err);
       }
     };
+    
     if(id){
       fetchSimilar();
-      router.push(`./category?category=${category}&page=${page}&id=${id}`)
+      router.push(`./category?category=${category}&page=${page}&id=${id}`, { scroll: false });
     } else{
       fetchMovies();
-      router.push(`./category?category=${category}&page=${page}`);
+      router.push(`./category?category=${category}&page=${page}`, { scroll: false });
     }
-  }, [page]);
-  
-
-  const resp = localStorage.getItem('dark');
-  const res = JSON.parse(resp);
-
-  const [dark, setDark] = useState(res!==null ? res : true);
+  }, [category, id, page, router]);
 
   const total_pages = movies?.total_pages > 500 ? 500 : movies?.total_pages;
 
   return loading ? (
     <div className={dark ? "bg-black" : "bg-white"}>
       <Header dark={dark} setDark={setDark} pre={"/details/"} />
-      <div className="w-screen min-h-screen flex justify-center">
-        <div className="w-[1300px] mt-[100px]">
-          <div className="capitalize font-bold text-[35px] ml-[50px] mb-[50px]">
-            {category?.split("_").join(" ")}
-          </div>
-          <div className="flex flex-wrap justify-center gap-y-[30px] gap-x-[20px] mb-[50px]">
-            <Skeleton className="w-[230px] h-[440px]"/>
-            <Skeleton className="w-[230px] h-[440px]"/>
-            <Skeleton className="w-[230px] h-[440px]"/>
-            <Skeleton className="w-[230px] h-[440px]"/>
-            <Skeleton className="w-[230px] h-[440px]"/>
-            <Skeleton className="w-[230px] h-[440px]"/>
-            <Skeleton className="w-[230px] h-[440px]"/>
-            <Skeleton className="w-[230px] h-[440px]"/>
-            <Skeleton className="w-[230px] h-[440px]"/>
-            <Skeleton className="w-[230px] h-[440px]"/>
-            <Skeleton className="w-[230px] h-[440px]"/>
-            <Skeleton className="w-[230px] h-[440px]"/>
-            <Skeleton className="w-[230px] h-[440px]"/>
-            <Skeleton className="w-[230px] h-[440px]"/>
-            <Skeleton className="w-[230px] h-[440px]"/>
-            <Skeleton className="w-[230px] h-[440px]"/>
-            <Skeleton className="w-[230px] h-[440px]"/>
-            <Skeleton className="w-[230px] h-[440px]"/>
-            <Skeleton className="w-[230px] h-[440px]"/>
-            <Skeleton className="w-[230px] h-[440px]"/>
-          </div>
-        </div>
-      </div>
+      <CategoryLoader />
       <Footer />
     </div>
   ) : (
@@ -216,5 +215,18 @@ export default function Category() {
       </div>
       <Footer />
     </div>
+  );
+}
+
+// Main export component with Suspense boundary
+export default function Category() {
+  return (
+    <Suspense fallback={
+      <div className="bg-black text-white">
+        <CategoryLoader />
+      </div>
+    }>
+      <CategoryContent />
+    </Suspense>
   );
 }
