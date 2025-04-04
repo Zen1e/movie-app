@@ -7,6 +7,7 @@ import Link from "next/link";
 type props = {
   dark: boolean;
   setDark: Dispatch<SetStateAction<boolean>>;
+  pre: string;
 };
 
 export default function Header(props: props) {
@@ -91,27 +92,33 @@ export default function Header(props: props) {
     fetchList();
   },[])
 
+  const [respond, setRespond] = useState(false);
+
 
     const dropdown = () => {
       setDropdown(!showDropdown);
+    }
+    const responseBlock = () => {
+      setRespond(true);
     }
   
 
   return (
     <div className="fixed top-0 w-full h-[60px] bg-inherit flex justify-center z-10">
       <div className="flex justify-between mt-[10px] w-[1200px] bg-inherit">
-        <a href="../" className="flex gap-[10px]">
+        <a href="../" className="flex gap-[10px] md:!flex" style={respond ? {display: 'none'} : {display: 'flex'}}>
           <img src="../../film.svg" className="w-[25px] h-[25px]" />
           <p className="text-indigo-700 italic font-bold">Movie film</p>
         </a>
         <div className="flex gap-[10px] h-[35px] bg-inherit">
           <input
             type="button"
-            className="w-[70px] outline-none border border-gray-400 rounded-[5px] hover:bg-gray-300/50 transition duration-[.3s]"
+            className="animate-moveDown w-[70px] outline-none border border-gray-400 rounded-[5px] hover:bg-gray-300/50 transition duration-[.3s] hidden md:!block w-[32px] md:w-[70px]"
             value={"Genre"}
             onClick={()=>dropdown()}
+            style={respond ? {display: 'block'} : {display: "none"}}
           />
-          {showDropdown && <div className="w-[500px] h-[350px] bg-inherit rounded-[5px] absolute mt-[50px] border">
+          {showDropdown && <div className="md:w-[500px] md:h-[350px] bg-inherit rounded-[5px] absolute mt-[50px] border w-screen left-0 md:left-auto">
             <div className="border-b-[2px] m-[20px] pb-[20px]">
               <div className="font-bold text-[28px]">Genres</div>
               <div>See lists of movies by genre</div>
@@ -126,11 +133,13 @@ export default function Header(props: props) {
             </div>}
           <input
             type="text"
-            className="outline-none bg-inherit border border-gray-400 rounded-[5px] text-gray-400 px-[10px] w-[300px]"
+            className="animate-moveDown outline-none bg-inherit border border-gray-400 rounded-[5px] text-gray-400 px-[10px] w-[75vw] md:w-[300px] hidden md:!block"
             placeholder="Search..."
             onChange={()=>search(event)}
             value={inputValue}
+            style={respond ? {display: 'block'} : {display: "none"}}
           />
+          <button className="relative left-[-30px] block md:!hidden rotate-[45deg]" style={respond ? {display: 'block'} : {display: "none"}} onClick={()=>setRespond(!respond)}>+</button>
           {show && <div className="bg-inherit w-[450px] absolute ml-[-33px] mt-[40px] rounded-[5px] overflow-hidden">
             {movie?.map((el)=>(
                 <Link href={`./${pre}${el.id}`} className="relative z-10" key={el.id}>
@@ -148,12 +157,13 @@ export default function Header(props: props) {
                 </Link>
             ))}
           </div>}
+          <button className="border border-gray-400 size-[35px] rounded md:!hidden absolute right-[50px] flex justify-center items-center" onClick={()=>{setRespond(!respond); setInputValue('')}} style={!respond ? {display: 'flex'}: {display: 'none'}}><img className="size-[22px]" src="/../search.svg" /></button>
         </div>
         <img
           src={darkModeSwitch()}
-          className="w-[35px] h-[35px] border border-gray-400 rounded-[5px] p-[5px]"
-          onClick={() => switchDark()
-          }
+          className="w-[35px] h-[35px] border border-gray-400 rounded-[5px] p-[5px] min-[540px]:!block"
+          onClick={() => switchDark()}
+          style={respond ? {display: 'none'} : {display: 'block'}}
         />
       </div>
     </div>

@@ -9,6 +9,15 @@ export default {
   ],
   theme: {
     extend: {
+      keyframes: {
+        moveDown: {
+          '0%': { transform: 'translateY(-50px)' },
+          '100%': { transform: 'translateY(0)' },
+        },
+      },
+      animation: {
+        moveDown: 'moveDown .15s linear forwards',
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

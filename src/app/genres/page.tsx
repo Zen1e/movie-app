@@ -116,8 +116,8 @@ const GenrePage = () => {
       <div className="w-screen mt-[60px] flex justify-center">
         <div className="w-[1200px]">
           <div className="text-[35px] font-bold mb-[30px]">Search filter</div>
-          <div className="flex">
-            <div className="min-w-[335px] max-w-[335px] sticky top-[60px] h-fit">
+          <div className="flex flex-col md:flex-row">
+            <div className=" md:max-w-[335px] pb-[50px] md:sticky top-[60px] h-fit">
               <div className="font-bold text-[28px]">Genres</div>
               <div className="font-semibold text-[18px mb-[40px]">
                 See lists of movies by genre
@@ -141,7 +141,7 @@ const GenrePage = () => {
                 ))}
               </div>
             </div>
-            <div className="border-l border-gray-400/25 pl-[15px] min-h-screen">
+            <div className="md:border-l border-gray-400/25 pl-[15px] min-h-screen  ">
               <div className="font-bold text-[25px]">
                 {movies?.total_results ? movies.total_results : 'No'} movies
               </div>
@@ -202,7 +202,7 @@ const GenrePage = () => {
               </div>}
               <div className="flex gap-[10px] mt-[10px] mb-[60px]">
               <Pagination>
-              <PaginationContent>
+              <PaginationContent className="flex flex-wrap">
                 {page !== 1 && <PaginationItem>
                   <PaginationPrevious onClick={()=>{setPage(page-1)}} />
                 </PaginationItem>}

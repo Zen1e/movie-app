@@ -126,9 +126,9 @@ export default function Detail(props) {
         {playing && (
           <Video playing={playing} setPlaying={setPlaying} source={source()} />
         )}
-        <div className="w-[1200px] flex flex-col">
-          <div className="w-full h-[100px] flex justify-between">
-            <div className="">
+        <div className="max-w-[1200px] flex flex-col">
+          <div className="h-fit flex justify-between">
+            <div className="w-[calc(100vw-67px)] h-fit">
               <div className="font-bold text-[32px]">{movies.title}</div>
               <div className="text-[17px]">
                 {movies.release_date} · PG · {movies.runtime} min
@@ -148,16 +148,16 @@ export default function Detail(props) {
               <div className="ml-[20px]">{movies.vote_count}</div>
             </div>
           </div>
-          <div className="flex w-full justify-between h-[428px]">
-            <div className="w-1/4 rounded-[5px] overflow-hidden">
+          <div className="flex gap-[40px] overflow-hidden flex-wrap">
+            <div className="w-[100px] h-[148px] lg:w-[280px] lg:h-[428px] m-[30px] mt-[260px] lg:m-0 rounded-[5px] overflow-hidden absolute lg:static">
               <img
                 src={`https://image.tmdb.org/t/p/original/${movies.poster_path}`}
-                alt=""
+                className="object-cover h-[100%] w-[100%]"
               />
             </div>
-            <div className="w-2/3 rounded-[5px] overflow-hidden flex justify-center items-center">
+            <div className="max-[400px]:w-screen w-[380px] h-[214px] lg:left-0 lg:w-[760px] lg:h-[428px] rounded-[5px] overflow-hidden flex justify-center items-center">
               <button
-                className="absolute p-[20px] rounded-[30px] text-[20px] border text-white bg-gray-700/75"
+                className="scale-50 lg:scale-100 absolute p-[20px] rounded-[30px] text-[20px] border text-white bg-gray-700/75"
                 onClick={() => setPlaying(true)}
               >
                 Play trailer
@@ -168,31 +168,31 @@ export default function Detail(props) {
               />
             </div>
           </div>
-          <div className="flex gap-[25px] mt-[50px]">
+          <div className="flex gap-x-[25px] gap-y-[10px] mt-[50px] ml-[170px] lg:ml-0 flex-wrap">
             {movies.genres.map((el, index) => (
               <div
                 key={index}
-                className="border rounded-[30px] px-[10px] text-[15px]"
+                className="border rounded-[30px] px-[10px] text-[13px] lg:text-[15px]"
               >
                 {findGenre(el.id)}
               </div>
             ))}
           </div>
-          <div className="mt-[50px] text-[18px] tracking-wide">
+          <div className="mt-[10px] lg:mt-[50px] text-[15px] lg:text-[18px] tracking-wide ml-[170px] lg:ml-0">
             {movies.overview}
           </div>
-          <div className="flex border-b border-gray-600/75 text-[17px] mt-[40px] pb-[10px] mb-[30px]">
+          <div className="flex border-b border-gray-600/75 text-[15px] lg:text-[17px] mt-[40px] pb-[10px] mb-[30px]">
             <div className="w-[200px] font-black">Director</div>
             <div>{findDirector()}</div>
           </div>
-          <div className="flex border-b border-gray-600/75 text-[17px] pb-[10px] mb-[30px]">
+          <div className="flex border-b border-gray-600/75 text-[15px] lg:text-[17px] pb-[10px] mb-[30px]">
             <div className="w-[200px] font-black">Producer</div>
             <div>{findProducer()}</div>
           </div>
-          <div className="flex border-b border-gray-600/75 text-[17px] pb-[10px] mb-[30px]">
+          <div className="flex border-b border-gray-600/75 text-[15px] lg:text-[17px] pb-[10px] mb-[30px]">
             <div className="min-w-[200px] font-black">Stars</div>
-            <div className="flex overflow-scroll">{casts?.cast.slice(0,5).map((el,index) => (
-              <div className="flex text-nowrap" key={index}>{index ? <div className="mx-[20px]">·</div> : <></>}{el.name}</div>
+            <div className="flex flex-wrap">{casts?.cast.slice(0,5).map((el,index) => (
+              <div className="flex text-wrap" key={index}>{index ? <div className="mx-[20px]">·</div> : <></>}{el.name}</div>
             ))}</div>
           </div>
           <div className="mb-[150px]">

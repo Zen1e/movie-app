@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <div className="w-screen h-[200px] bg-indigo-700 flex justify-center text-white">
+    <div className="w-screen h-fit bg-indigo-700 flex justify-center text-white overflow-hidden">
       <div className="w-[1200px] flex justify-between flex-wrap">
         <div className="pt-[40px]">
           <a href="" className="flex gap-[10px]">
@@ -25,7 +25,7 @@ export default function Footer() {
           </a>
           <div>© 2024 Movie Z. All Rights Reserved.</div>
         </div>
-        <div className="flex mt-[30px] gap-[40px]">
+        <div className="flex mt-[30px] gap-[40px] flex-wrap">
             <div className="flex flex-col gap-[10px]">
                 <p>Contact Information</p>
                 <div className="flex gap-[15px] w-[200px]">
@@ -45,7 +45,7 @@ export default function Footer() {
             </div>
             <div className="flex flex-col gap-[10px]">
                 <p>Follow us</p>
-                <div className="flex gap-[20px] font-bold">
+                <div className="flex flex-wrap gap-[20px] font-bold">
                     <p>Facebook</p>
                     <p>Instagram</p>
                     <p>Twitter</p>

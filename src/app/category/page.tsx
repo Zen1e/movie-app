@@ -16,7 +16,8 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination"
 
-export default function Category() {
+export default function Category() {  
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const category = searchParams.get("category");
@@ -171,7 +172,7 @@ export default function Category() {
           </div>
           <div className="flex mb-[100px] ml-[50px] gap-[30px]">
           <Pagination>
-              <PaginationContent>
+              <PaginationContent className="flex flex-wrap">
                 {page !== 1 && <PaginationItem>
                   <PaginationPrevious onClick={()=>{setPage(page-1)}} />
                 </PaginationItem>}

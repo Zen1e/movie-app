@@ -76,9 +76,9 @@ export default function BigPoster(props:props){
             <CarouselContent>
             {nowPlaying.map((element: el, index:number)=>(
                 <CarouselItem className="w-screen h-[600px] overflow-hidden" key={element.id}>
-                    <Link href={`./details/${element.id}`} className="relative z-10">
-                    <img src={`https://image.tmdb.org/t/p/original/${element.backdrop_path}`} alt="" className="w-screen mt-[-200px]"/>
-                    <div className="absolute top-[200px] ml-[170px] flex flex-col w-[300px] text-white">
+                    <Link href={`./details/${element.id}`} className="relative z-10 flex">
+                    <div className="w-screen lg:h-[600px] h-[300px] overflow-hidden"><img src={`https://image.tmdb.org/t/p/original/${element.backdrop_path}`} alt="" className="w-full h-full object-cover"/></div>
+                    <div className="absolute top-[340px] ml-[70px] flex flex-col w-3/4 lg:w-[300px] lg:top-[200px] lg:text-white lg:ml-[170px]">
                         <p>Now playing:</p>
                         <p className="font-bold text-[25px] line-clamp-1">{element.title}</p>
                         <div className="flex gap-[10px]">
@@ -88,12 +88,12 @@ export default function BigPoster(props:props){
                         <p className="font-medium text-[15px] leading-[20px] line-clamp-5">{element.overview}</p>
                     </div>
                     </Link>
-                        <button className="border border-gray-300 w-[130px] p-[5px] rounded-xl font-semibold absolute z-20 top-[420px] ml-[180px]" style={{background: dark === true ? 'black' : 'white', color: dark === true ? 'white' : 'black'}} onClick={()=>fetchvideo(element.id)}>Watch trailer</button>
+                        <button className="border border-gray-300 w-[130px] p-[5px] rounded-xl font-semibold absolute z-20 top-[550px] ml-[80px] lg:top-[420px] lg:ml-[180px]" style={{background: dark === true ? 'black' : 'white', color: dark === true ? 'white' : 'black'}} onClick={()=>fetchvideo(element.id)}>Watch trailer</button>
                 </CarouselItem>
             ))}
             </CarouselContent>
-            <CarouselPrevious className="absolute left-[50px] bg-inherit"/>
-            <CarouselNext className="absolute right-[50px] bg-inherit"/>
+            <CarouselPrevious className="absolute left-[50px] bg-white hidden lg:flex text-black"/>
+            <CarouselNext className="absolute right-[50px] bg-white hidden lg:flex text-black"/>
         </Carousel>
         </div>
     )
